@@ -1,15 +1,14 @@
 const express = require("express");
+const path = require("path");
 const app = express();
 
-const port = 80;
+const routerIndex = require("./routes/index");
 
-app.set("view-engine", "ejs");
-app.set("views", __dirname + "/views");
-app.set("port", process.env.PORT || port);
+app.set("views", path.join(__dirname, "views"));
+app.set("view engine", "ejs");
+app.set("port", process.env.PORT || 80);
 
-app.get("/", (req, res) => {
-  res.render("index.ejs");
-});
+app.use("/", routerIndex);
 
 app.listen(app.get("port"), () => {
   console.log("Started on port " + app.get("port"));
