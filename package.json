@@ -1,0 +1,22 @@
+{
+  "name": "webapp",
+  "version": "1.0.0",
+  "description": "webapp",
+  "main": "app.js",
+  "scripts": {
+    "test": "start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/laulupp/webapp.git"
+  },
+  "keywords": [
+    "webapp"
+  ],
+  "author": "Lau",
+  "license": "UNLICENSED",
+  "bugs": {
+    "url": "https://github.com/laulupp/webapp/issues"
+  },
+  "homepage": "https://github.com/laulupp/webapp#readme"
+}
