@@ -1,10 +1,12 @@
-let express = require("express");
-let app = express();
+const express = require("express");
+const app = express();
 
-let port = 80;
+const port = 80;
+
+app.set("view-engine", "ejs");
 
 app.get("/", (req, res) => {
-  res.render("views/index.ejs");
+  res.render("index.ejs");
 });
 
 app.listen(port, () => {
