@@ -20,7 +20,16 @@ router.post("/login", passport.authenticate("login", {
   failureFlash: false
 }))
 
-router.get("/register", authCheck.isNotLogged, (req, res) => {
+router.get("/logout", (req, res, next) => {
+  req.logout(function(err) {
+    if (err) {
+      return next(err);
+    }
+    res.redirect('/login');
+  });
+});
+
+router.get("/register", authCheck.isNotLogged, function(req, res) {
   res.render("register");
 });
 
