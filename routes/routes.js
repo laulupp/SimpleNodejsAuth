@@ -7,7 +7,7 @@ const authCheck = require("../auth/authCheck");
 
 
 router.get("/", authCheck.isLogged, (req, res) => {
-  res.render("home");
+  res.render("home", { user: req.user.username });
 });
 
 router.get("/login", authCheck.isNotLogged, (req, res) => {
@@ -20,7 +20,7 @@ router.post("/login", passport.authenticate("login", {
   failureFlash: false
 }))
 
-router.get("/logout", (req, res, next) => {
+router.get("/logout", authCheck.isLogged, (req, res, next) => {
   req.logout(function(err) {
     if (err) {
       return next(err);
