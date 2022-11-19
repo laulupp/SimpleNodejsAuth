@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     },
     name: {
         type: String,
-        required: true
+        required: false
     },
     email: {
         type: String,
@@ -19,8 +19,9 @@ const userSchema = new mongoose.Schema({
     },
     dateCreated: {
         type: Date,
+        default: Date.now,
         required: false
     },
 });
 
-module.exports = mongoose.model("Users", userSchema);
+module.exports = mongoose.model("User", userSchema);
