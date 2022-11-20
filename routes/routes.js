@@ -11,13 +11,13 @@ router.get("/", authCheck.isLogged, (req, res) => {
 });
 
 router.get("/login", authCheck.isNotLogged, (req, res) => {
-  res.render("login");
+  res.render("login", {message: req.flash("error")});
 });
 
 router.post("/login", passport.authenticate("login", {
   successRedirect: "/",
-  failureRedirect: "/login?error=true",
-  failureFlash: false
+  failureRedirect: "/login",
+  failureFlash: true
 }))
 
 router.get("/logout", authCheck.isLogged, (req, res, next) => {
@@ -30,16 +30,36 @@ router.get("/logout", authCheck.isLogged, (req, res, next) => {
 });
 
 router.get("/register", authCheck.isNotLogged, function(req, res) {
-  res.render("register");
+  res.render("register", {message: req.flash("message")});
 });
 
 router.post("/register", function (req, res, next) {
-
+  if (req.body.username.length === 0) {
+    req.flash("message", "Invalid username");
+    res.redirect("/register");
+  }
+  if (req.body.password.length === 0) {
+    req.flash("message", "Invalid password");
+    res.redirect("/register");
+  }
+  if (req.body.password2.length === 0) {
+    req.flash("message", "Please retype the password");
+    res.redirect("/register");
+  }
+  if (req.body.name.length === 0) {
+    req.flash("message", "Invalid name");
+    res.redirect("/register");
+  }
 
   User.findOne({ username: req.body.username }, function (err, user) {
     if (err) { return next(err); }
     if (user) {
-      return res.redirect("/register?error=true");
+      req.flash("message", "The username already exists");
+      return res.redirect("/register");
+    }
+    if (req.body.password != req.body.password2) {
+      req.flash("message", "The passwords do not match");
+      return res.redirect("/register");
     }
 
     bcrypt.genSalt(10, function (err, salt) {
@@ -62,7 +82,7 @@ router.post("/register", function (req, res, next) {
 }, passport.authenticate("login", {
   successRedirect: "/",
   failureRedirect: "/register",
-  failureFlash: false
+  failureFlash: true
 }));
 
 module.exports = router;

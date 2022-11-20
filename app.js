@@ -7,6 +7,7 @@ const mongoose = require("mongoose");
 const passport = require("passport");
 const bcrypt = require("bcrypt");
 const bodyParser = require("body-parser");
+const flash = require("connect-flash");
 
 const router = require("./routes/routes");
 const configPassport = require("./auth/configPassport");
@@ -27,6 +28,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true
 }));
+app.use(flash());
 app.use(passport.initialize());
 app.use(passport.session());
 app.use("/", router);
